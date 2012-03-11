@@ -19,7 +19,7 @@ See example files
     php example1.php
     Secret is: OQB6ZZGYHCPSX4AK
 
-    Google Charts URL for the QR-Code: https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/info@phpgangsta.de%3Fsecret%3DOQB6ZZGYHCPSX4AK
+    Google Charts URL for the QR-Code: https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/infoATphpgangsta.de%3Fsecret%3DOQB6ZZGYHCPSX4AK
 
     Checking Code '848634' and Secret 'OQB6ZZGYHCPSX4AK':
     OK
