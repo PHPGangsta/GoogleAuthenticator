@@ -11,7 +11,7 @@
 
 class PHPGangsta_GoogleAuthenticator
 {
-    protected $_codeLength = 6;
+    protected static $_codeLength = 6;
 
     /**
      * Create new secret.
@@ -20,9 +20,9 @@ class PHPGangsta_GoogleAuthenticator
      * @param int $secretLength
      * @return string
      */
-    public function createSecret($secretLength = 16)
+    public static function createSecret($secretLength = 16)
     {
-        $validChars = $this->_getBase32LookupTable();
+        $validChars = self::_getBase32LookupTable();
         unset($validChars[32]);
 
         $secret = '';
@@ -39,13 +39,13 @@ class PHPGangsta_GoogleAuthenticator
      * @param int|null $timeSlice
      * @return string
      */
-    public function getCode($secret, $timeSlice = null)
+    public static function getCode($secret, $timeSlice = null)
     {
         if ($timeSlice === null) {
             $timeSlice = floor(time() / 30);
         }
 
-        $secretkey = $this->_base32Decode($secret);
+        $secretkey = self::_base32Decode($secret);
 
         // Pack time into binary string
         $time = chr(0).chr(0).chr(0).chr(0).pack('N*', $timeSlice);
@@ -62,8 +62,8 @@ class PHPGangsta_GoogleAuthenticator
         // Only 32 bits
         $value = $value & 0x7FFFFFFF;
 
-        $modulo = pow(10, $this->_codeLength);
-        return str_pad($value % $modulo, $this->_codeLength, '0', STR_PAD_LEFT);
+        $modulo = pow(10, self::$_codeLength);
+        return str_pad($value % $modulo, self::$_codeLength, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -73,7 +73,7 @@ class PHPGangsta_GoogleAuthenticator
      * @param string $secret
      * @return string
      */
-    public function getQRCodeGoogleUrl($name, $secret) {
+    public static function getQRCodeGoogleUrl($name, $secret) {
         return 'https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/'.$name.'%3Fsecret%3D'.$secret;
     }
 
@@ -85,12 +85,12 @@ class PHPGangsta_GoogleAuthenticator
      * @param int $discrepancy This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
      * @return bool
      */
-    public function verifyCode($secret, $code, $discrepancy = 1)
+    public static function verifyCode($secret, $code, $discrepancy = 1)
     {
         $currentTimeSlice = floor(time() / 30);
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
-            $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
+            $calculatedCode = self::getCode($secret, $currentTimeSlice + $i);
             if ($calculatedCode == $code ) {
                 return true;
             }
@@ -105,9 +105,9 @@ class PHPGangsta_GoogleAuthenticator
      * @param int $length
      * @return PHPGangsta_GoogleAuthenticator
      */
-    public function setCodeLength($length)
+    public static function setCodeLength($length)
     {
-        $this->_codeLength = $length;
+        self::$_codeLength = $length;
         return $this;
     }
 
@@ -117,11 +117,11 @@ class PHPGangsta_GoogleAuthenticator
      * @param $secret
      * @return bool|string
      */
-    protected function _base32Decode($secret)
+    protected static function _base32Decode($secret)
     {
         if (empty($secret)) return '';
 
-        $base32chars = $this->_getBase32LookupTable();
+        $base32chars = self::_getBase32LookupTable();
         $base32charsFlipped = array_flip($base32chars);
 
         $paddingCharCount = substr_count($secret, $base32chars[32]);
@@ -155,11 +155,11 @@ class PHPGangsta_GoogleAuthenticator
      * @param bool $padding
      * @return string
      */
-    protected function _base32Encode($secret, $padding = true)
+    protected static function _base32Encode($secret, $padding = true)
     {
         if (empty($secret)) return '';
 
-        $base32chars = $this->_getBase32LookupTable();
+        $base32chars = self::_getBase32LookupTable();
 
         $secret = str_split($secret);
         $binaryString = "";
@@ -187,7 +187,7 @@ class PHPGangsta_GoogleAuthenticator
      *
      * @return array
      */
-    protected function _getBase32LookupTable()
+    protected static function _getBase32LookupTable()
     {
         return array(
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //  7

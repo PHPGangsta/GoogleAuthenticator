@@ -2,19 +2,17 @@
 
 require_once '../PHPGangsta/GoogleAuthenticator.php';
 
-$ga = new PHPGangsta_GoogleAuthenticator();
-
-$secret = $ga->createSecret();
+$secret = PHPGangsta_GoogleAuthenticator::createSecret();
 echo "Secret is: ".$secret."\n\n";
 
-$qrCodeUrl = $ga->getQRCodeGoogleUrl('Blog', $secret);
+$qrCodeUrl = PHPGangsta_GoogleAuthenticator::getQRCodeGoogleUrl('Blog', $secret);
 echo "Google Charts URL for the QR-Code: ".$qrCodeUrl."\n\n";
 
 
-$oneCode = $ga->getCode($secret);
+$oneCode = PHPGangsta_GoogleAuthenticator::getCode($secret);
 echo "Checking Code '$oneCode' and Secret '$secret':\n";
 
-$checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
+$checkResult = PHPGangsta_GoogleAuthenticator::verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
 if ($checkResult) {
     echo 'OK';
 } else {
