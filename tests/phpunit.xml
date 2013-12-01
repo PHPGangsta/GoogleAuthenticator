@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="tests/bootstrap.php" colors="true">
+<phpunit bootstrap="bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="GoogleAuthenticator Test Suite">
-            <directory>tests/</directory>
+            <directory>./</directory>
         </testsuite>
     </testsuites>
 
