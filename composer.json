@@ -6,10 +6,14 @@
     "license": "BSD-4-Clause",
     "authors": [
         {
-            "name": "Michael Kliewe",
+            "name": "Michael Kliewe"
         }
     ],
 	"autoload": {
 		"classmap": ["vendorphpgangsta/googleauthenticato/GoogleAuthenticator.php"]
 	}
 }
+
+
+
+
