@@ -10,7 +10,7 @@
         }
     ],
 	"autoload": {
-		"classmap": ["vendor/phpgangsta/googleauthenticato/PHPGangsta/GoogleAuthenticator.php"]
+		"classmap": ["PHPGangsta/GoogleAuthenticator.php"]
 	}
 }
 
