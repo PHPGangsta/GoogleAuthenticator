@@ -1,0 +1,19 @@
+{
+    "name": "phpgangsta/googleauthenticator",
+    "description": "Google Authenticator 2-factor authentication",
+    "type": "library",
+    "keywords": ["GoogleAuthenticator"],
+    "license": "BSD-4-Clause",
+    "authors": [
+        {
+            "name": "Michael Kliewe"
+        }
+    ],
+	"autoload": {
+		"classmap": ["PHPGangsta/GoogleAuthenticator.php"]
+	}
+}
+
+
+
+
