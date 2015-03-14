@@ -10,7 +10,7 @@ Google Authenticator PHP class
 This PHP class can be used to interact with the Google Authenticator mobile app for 2-factor-authentication. This class
 can generate secrets, generate codes, validate codes and present a QR-Code for scanning the secret.
 
-For a secret installation you have to make sure that used codes cannot be reused (replay-attack).
+For a secure installation you have to make sure that used codes cannot be reused (replay-attack).
 
 Usage:
 ------
