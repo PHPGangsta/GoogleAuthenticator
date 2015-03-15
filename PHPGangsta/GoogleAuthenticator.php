@@ -71,10 +71,14 @@ class PHPGangsta_GoogleAuthenticator
      *
      * @param string $name
      * @param string $secret
+     * @param string $title
      * @return string
      */
-    public function getQRCodeGoogleUrl($name, $secret) {
+    public function getQRCodeGoogleUrl($name, $secret, $title = null) {
         $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.'');
+	if(isset($title)) {
+                $urlencoded .= urlencode('&issuer='.$title);
+        }
         return 'https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl='.$urlencoded.'';
     }
 
