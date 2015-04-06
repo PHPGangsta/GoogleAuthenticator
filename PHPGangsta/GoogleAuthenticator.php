@@ -41,7 +41,8 @@ class PHPGangsta_GoogleAuthenticator
      */
     public function getCode($secret, $timeSlice = null)
     {
-        if ($timeSlice === null) {
+        if ($timeSlice === null)
+        {
             $timeSlice = floor(time() / 30);
         }
 
@@ -74,7 +75,8 @@ class PHPGangsta_GoogleAuthenticator
      * @param string $title
      * @return string
      */
-    public function getQRCodeGoogleUrl($name, $secret, $title = null) {
+    public function getQRCodeGoogleUrl($name, $secret, $title = null)
+    {
         $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.'');
 	if(isset($title)) {
                 $urlencoded .= urlencode('&issuer='.urlencode($title));
@@ -94,7 +96,8 @@ class PHPGangsta_GoogleAuthenticator
     {
         $currentTimeSlice = floor(time() / 30);
 
-        for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
+        for ($i = -$discrepancy; $i <= $discrepancy; $i++)
+        {
             $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
             if ($calculatedCode == $code ) {
                 return true;
@@ -139,14 +142,17 @@ class PHPGangsta_GoogleAuthenticator
         $secret = str_replace('=','', $secret);
         $secret = str_split($secret);
         $binaryString = "";
-        for ($i = 0; $i < count($secret); $i = $i+8) {
+        for ($i = 0; $i < count($secret); $i = $i+8)
+        {
             $x = "";
             if (!in_array($secret[$i], $base32chars)) return false;
-            for ($j = 0; $j < 8; $j++) {
+            for ($j = 0; $j < 8; $j++)
+            {
                 $x .= str_pad(base_convert(@$base32charsFlipped[@$secret[$i + $j]], 10, 2), 5, '0', STR_PAD_LEFT);
             }
             $eightBits = str_split($x, 8);
-            for ($z = 0; $z < count($eightBits); $z++) {
+            for ($z = 0; $z < count($eightBits); $z++)
+            {
                 $binaryString .= ( ($y = chr(base_convert($eightBits[$z], 2, 10))) || ord($y) == 48 ) ? $y:"";
             }
         }
