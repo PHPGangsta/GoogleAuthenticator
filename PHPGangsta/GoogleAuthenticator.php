@@ -99,7 +99,9 @@ class PHPGangsta_GoogleAuthenticator
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
             $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
-            if ($calculatedCode == $code ) {
+            $code = (int)$code;
+            $calculatedCode = (int)$calculatedCode;
+            if ($calculatedCode && $calculatedCode == $code ) {
                 return true;
             }
         }
