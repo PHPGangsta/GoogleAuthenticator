@@ -97,6 +97,10 @@ class PHPGangsta_GoogleAuthenticator
             $currentTimeSlice = floor(time() / 30);
         }
 
+        if (strlen($secret) != 6) {
+            return false;
+        }
+
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
             $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
             $code = (int)$code;
