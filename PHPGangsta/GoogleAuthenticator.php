@@ -24,6 +24,10 @@ class PHPGangsta_GoogleAuthenticator
     {
         $validChars = $this->_getBase32LookupTable();
 
+        // Valid secret lengths are 50 to 640 bits
+        if ($secretLength < 10 || $secretLength > 128) {
+            throw new Exception('Bad secret length');
+        }
         $secret = '';
         $rnd = false;
         if (function_exists('mcrypt_create_iv')) {
@@ -40,11 +44,7 @@ class PHPGangsta_GoogleAuthenticator
                 $secret .= $validChars[ord($rnd[$i]) & 31];
             }
         } else {
-            // This should be an error
-            unset($validChars[32]);
-            for ($i = 0; $i < $secretLength; $i++) {
-                $secret .= $validChars[array_rand($validChars)];
-            }
+            throw new Exception('No source of secure random');
         }
         return $secret;
     }
