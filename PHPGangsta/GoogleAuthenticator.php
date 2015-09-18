@@ -97,7 +97,7 @@ class PHPGangsta_GoogleAuthenticator
             $currentTimeSlice = floor(time() / 30);
         }
 
-        if (strlen($secret) != 6) {
+        if (strlen($code) != 6) {
             return false;
         }
 
