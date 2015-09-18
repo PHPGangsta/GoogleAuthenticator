@@ -20,12 +20,13 @@ class PHPGangsta_GoogleAuthenticator
      * @param int $secretLength
      * @return string
      */
+
     public function createSecret($secretLength = 16)
     {
         $validChars = $this->_getBase32LookupTable();
 
-        // Valid secret lengths are 50 to 640 bits
-        if ($secretLength < 10 || $secretLength > 128) {
+        // Valid secret lengths are 80 to 640 bits
+        if ($secretLength < 16 || $secretLength > 128) {
             throw new Exception('Bad secret length');
         }
         $secret = '';
