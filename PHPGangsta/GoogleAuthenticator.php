@@ -23,11 +23,28 @@ class PHPGangsta_GoogleAuthenticator
     public function createSecret($secretLength = 16)
     {
         $validChars = $this->_getBase32LookupTable();
-        unset($validChars[32]);
 
+        // Valid secret lengths are 50 to 640 bits
+        if ($secretLength < 10 || $secretLength > 128) {
+            throw new Exception('Bad secret length');
+        }
         $secret = '';
-        for ($i = 0; $i < $secretLength; $i++) {
-            $secret .= $validChars[array_rand($validChars)];
+        $rnd = false;
+        if (function_exists('mcrypt_create_iv')) {
+            $rnd = mcrypt_create_iv($secretLength, MCRYPT_DEV_URANDOM);
+        }
+        elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $rnd = openssl_random_pseudo_bytes($secretLength, $cryptoStrong);
+            if (!$cryptoStrong) {
+                $rnd = false;
+            }
+        }
+        if ($rnd !== false) {
+            for ($i = 0; $i < $secretLength; $i++) {
+                $secret .= $validChars[ord($rnd[$i]) & 31];
+            }
+        } else {
+            throw new Exception('No source of secure random');
         }
         return $secret;
     }
