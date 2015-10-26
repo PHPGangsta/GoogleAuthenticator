@@ -82,9 +82,22 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testVerifyCodeWithLeadingZero()
+    {
+        $secret = 'SECRET';
+        $code = $this->googleAuthenticator->getCode($secret);
+        $result = $this->googleAuthenticator->verifyCode($secret, $code);
+        $this->assertEquals(true, $result);
+
+        $code = '0'.$code;
+        $result = $this->googleAuthenticator->verifyCode($secret, $code);
+        $this->assertEquals(false, $result);
+
+    }
+
     public function testsetCodeLength()
     {
         $result = $this->googleAuthenticator->setCodeLength(6);
         $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $result);
     }
-} 
+}
