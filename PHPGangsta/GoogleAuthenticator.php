@@ -78,7 +78,7 @@ class PHPGangsta_GoogleAuthenticator
     public function getQRCodeGoogleUrl($name, $secret, $title = null, $params = []) {
         $width = !empty($params['width']) && (int)$params['width'] > 0 ? (int)$params['width'] : 200;
         $height = !empty($params['height']) && (int)$params['height'] > 0 ? (int)$params['height'] : 200;
-        $level = !empty($params['level']) && array_search($params['level'], ['L', 'M', 'Q', 'H']) !== false ? $params['level'] : 'M';
+        $level = !empty($params['level']) && array_search($params['level'], array('L', 'M', 'Q', 'H')) !== false ? $params['level'] : 'M';
         
         $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.'');
 	if(isset($title)) {
