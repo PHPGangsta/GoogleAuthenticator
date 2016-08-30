@@ -1,9 +1,10 @@
 {
-    "name": "phpgangsta/googleauthenticator",
-    "description": "Google Authenticator 2-factor authentication",
+    "name": "highwire/googleauthenticator",
+    "description": "Google Authenticator 2-factor authentication - HighWire Fork",
     "type": "library",
     "keywords": ["GoogleAuthenticator"],
     "license": "BSD-4-Clause",
+    "version": "1.0.0", 
     "authors": [
         {
             "name": "Michael Kliewe"
