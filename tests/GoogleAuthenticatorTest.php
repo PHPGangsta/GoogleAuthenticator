@@ -36,7 +36,7 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
     public function testCreateSecretLengthCanBeSpecified()
     {
         $ga = $this->googleAuthenticator;
-        for ($secretLength = 0; $secretLength < 100; $secretLength++) {
+        for ($secretLength = 16; $secretLength < 100; $secretLength++) {
             $secret = $ga->createSecret($secretLength);
             $this->assertEquals(strlen($secret), $secretLength);
         }
@@ -87,4 +87,4 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
         $result = $this->googleAuthenticator->setCodeLength(6);
         $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $result);
     }
-} 
+}

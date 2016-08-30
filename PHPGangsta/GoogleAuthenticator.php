@@ -20,14 +20,32 @@ class PHPGangsta_GoogleAuthenticator
      * @param int $secretLength
      * @return string
      */
+
     public function createSecret($secretLength = 16)
     {
         $validChars = $this->_getBase32LookupTable();
-        unset($validChars[32]);
 
+        // Valid secret lengths are 80 to 640 bits
+        if ($secretLength < 16 || $secretLength > 128) {
+            throw new Exception('Bad secret length');
+        }
         $secret = '';
-        for ($i = 0; $i < $secretLength; $i++) {
-            $secret .= $validChars[array_rand($validChars)];
+        $rnd = false;
+        if (function_exists('mcrypt_create_iv')) {
+            $rnd = mcrypt_create_iv($secretLength, MCRYPT_DEV_URANDOM);
+        }
+        elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $rnd = openssl_random_pseudo_bytes($secretLength, $cryptoStrong);
+            if (!$cryptoStrong) {
+                $rnd = false;
+            }
+        }
+        if ($rnd !== false) {
+            for ($i = 0; $i < $secretLength; $i++) {
+                $secret .= $validChars[ord($rnd[$i]) & 31];
+            }
+        } else {
+            throw new Exception('No source of secure random');
         }
         return $secret;
     }
@@ -97,9 +115,15 @@ class PHPGangsta_GoogleAuthenticator
             $currentTimeSlice = floor(time() / 30);
         }
 
+        if (strlen($code) != 6) {
+            return false;
+        }
+
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
             $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
-            if ($calculatedCode == $code ) {
+            $code = (int)$code;
+            $calculatedCode = (int)$calculatedCode;
+            if ($calculatedCode && $calculatedCode == $code ) {
                 return true;
             }
         }
