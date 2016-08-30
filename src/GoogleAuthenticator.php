@@ -1,6 +1,8 @@
 <?php
 namespace GoogleAuthenticator;
 
+use Endroid\QrCode\QrCode;
+
 /**
  * PHP Class for handling Google Authenticator 2-factor authentication
  *
@@ -83,6 +85,40 @@ class GoogleAuthenticator
 
         $modulo = pow(10, $this->_codeLength);
         return str_pad($value % $modulo, $this->_codeLength, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Get QR-Code URI
+     *
+     * @param string $name
+     * @param string $secret
+     * @param string $title
+     * @return string
+     */
+    public function getQRCodeURI($name, $secret, $title = null) {
+        $uri = 'otpauth://totp/' . urlencode($name) . '?secret=' . $secret;
+        if (isset($title)) {
+            $uri .= '&issuer='.urlencode($title);
+        }
+    }
+
+    /**
+     * Get QR-Code
+     *
+     * @param string $name
+     * @param string $secret
+     * @param string $title
+     * @return string 
+     *   Raw PNG data containing the QR Code image. 
+     */
+    public function getQRCode($name, $secret, $title = NULL, $size = 300) {
+        $qrCode = new QrCode();
+        $qrCode->setText($this->getQRCodeURI($name, $secret, $title));
+        $qrCode->setImageType(QrCode::IMAGE_TYPE_PNG);
+        $qrCode->setErrorCorrection('high');
+        $qrCode->setSize($size);
+
+        return $qrCode->get();
     }
 
     /**

@@ -19,9 +19,8 @@
         "psr-4": {
             "GoogleAuthenticator\\": "src/"
         }
+    },
+    "require": {
+        "endroid/qrcode": "^1.7"
     }
 }
-
-
-
-
