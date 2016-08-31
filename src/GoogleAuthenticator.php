@@ -117,6 +117,8 @@ class GoogleAuthenticator
         $qrCode->setImageType(QrCode::IMAGE_TYPE_PNG);
         $qrCode->setErrorCorrection('high');
         $qrCode->setSize($size);
+        $qrCode->setLabel($secret);
+        $qrCode->setLabelFontSize(30);
 
         return $qrCode->get();
     }
@@ -156,16 +158,10 @@ class GoogleAuthenticator
             return false;
         }
 
-        for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
-            $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
-            $code = (int)$code;
-            $calculatedCode = (int)$calculatedCode;
-            if ($calculatedCode && $calculatedCode == $code ) {
-                return true;
-            }
-        }
+        $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
 
-        return false;
+        // Use constant time compare
+        return hash_equals($calculatedCode, $code);
     }
 
     /**

@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["GoogleAuthenticator"],
     "license": "BSD-4-Clause",
-    "version": "1.0.2", 
+    "version": "1.0.3", 
     "authors": [
         {
             "name": "Michael Kliewe"
