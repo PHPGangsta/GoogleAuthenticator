@@ -100,6 +100,7 @@ class GoogleAuthenticator
         if (isset($title)) {
             $uri .= '&issuer='.urlencode($title);
         }
+        return $uri;
     }
 
     /**
@@ -117,8 +118,6 @@ class GoogleAuthenticator
         $qrCode->setImageType(QrCode::IMAGE_TYPE_PNG);
         $qrCode->setErrorCorrection('high');
         $qrCode->setSize($size);
-        $qrCode->setLabel($secret);
-        $qrCode->setLabelFontSize(30);
 
         return $qrCode->get();
     }
