@@ -149,6 +149,9 @@ class GoogleAuthenticator
      */
     public function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
     {
+    	// Since $code is coming from the user, do a bit of cleanup by removing all whitespace
+    	$code = preg_replace('/\s+/', '', $code);
+    	
         if ($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
         }
