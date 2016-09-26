@@ -1,7 +1,9 @@
 <?php
 
-class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
+require_once __DIR__ . '/../vendor/autoload.php';
 
+class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
+{
     /* @var $googleAuthenticator PHPGangsta_GoogleAuthenticator */
     protected $googleAuthenticator;
 
@@ -23,21 +25,25 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
     public function testItCanBeInstantiated()
     {
         $ga = new PHPGangsta_GoogleAuthenticator();
+
         $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $ga);
     }
 
     public function testCreateSecretDefaultsToSixteenCharacters()
     {
-        $ga = $this->googleAuthenticator;
+        $ga     = $this->googleAuthenticator;
         $secret = $ga->createSecret();
+
         $this->assertEquals(strlen($secret), 16);
     }
 
     public function testCreateSecretLengthCanBeSpecified()
     {
         $ga = $this->googleAuthenticator;
+
         for ($secretLength = 0; $secretLength < 100; $secretLength++) {
             $secret = $ga->createSecret($secretLength);
+
             $this->assertEquals(strlen($secret), $secretLength);
         }
     }
@@ -54,11 +60,11 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
 
     public function testgetQRCodeGoogleUrlReturnsCorrectUrl()
     {
-        $secret = 'SECRET';
-        $name   = 'Test';
-        $url = $this->googleAuthenticator->getQRCodeGoogleUrl($name, $secret);
-
+        $secret   = 'SECRET';
+        $name     = 'Test';
+        $url      = $this->googleAuthenticator->getQRCodeGoogleUrl($name, $secret);
         $urlParts = parse_url($url);
+
         parse_str($urlParts['query'], $queryStringArray);
 
         $this->assertEquals($urlParts['scheme'], 'https');
@@ -66,25 +72,28 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($urlParts['path'], '/chart');
 
         $expectedChl = 'otpauth://totp/' . $name . '?secret=' . $secret;
+
         $this->assertEquals($queryStringArray['chl'], $expectedChl);
     }
 
     public function testVerifyCode()
     {
         $secret = 'SECRET';
-        $code = $this->googleAuthenticator->getCode($secret);
+        $code   = $this->googleAuthenticator->getCode($secret);
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
+
         $this->assertEquals(true, $result);
 
-        $code = 'INVALIDCODE';
+        $code   = 'INVALIDCODE';
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
-        $this->assertEquals(false, $result);
 
+        $this->assertEquals(false, $result);
     }
 
     public function testsetCodeLength()
     {
         $result = $this->googleAuthenticator->setCodeLength(6);
+
         $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $result);
     }
-} 
+}
