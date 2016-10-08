@@ -1,16 +1,19 @@
 Google Authenticator PHP class
 ==============================
 
-* Copyright (c) 2012, [http://www.phpgangsta.de](http://www.phpgangsta.de)
-* Author: Michael Kliewe, [@PHPGangsta](http://twitter.com/PHPGangsta)
+* Copyright (c) 2012-2016, [http://www.phpgangsta.de](http://www.phpgangsta.de)
+* Author: Michael Kliewe, [@PHPGangsta](http://twitter.com/PHPGangsta) and [contributors](https://github.com/PHPGangsta/GoogleAuthenticator/graphs/contributors)
 * Licensed under the BSD License.
 
 [![Build Status](https://travis-ci.org/PHPGangsta/GoogleAuthenticator.png?branch=master)](https://travis-ci.org/PHPGangsta/GoogleAuthenticator)
 
 This PHP class can be used to interact with the Google Authenticator mobile app for 2-factor-authentication. This class
-can generate secrets, generate codes, validate codes and present a QR-Code for scanning the secret.
+can generate secrets, generate codes, validate codes and present a QR-Code for scanning the secret. It implements TOTP 
+according to [RFC6238](https://tools.ietf.org/html/rfc6238)
 
-For a secure installation you have to make sure that used codes cannot be reused (replay-attack).
+For a secure installation you have to make sure that used codes cannot be reused (replay-attack). You also need to
+limit the number of verifications, to fight against brute-force attacks. For example you could limit the amount of
+verifications to 10 tries within 10 minutes for one IP address (or IPv6 block). It depends on your environment.
 
 Usage:
 ------
@@ -19,7 +22,7 @@ See following example:
 
 ```php
 <?php
-require_once '../PHPGangsta/GoogleAuthenticator.php';
+require_once 'PHPGangsta/GoogleAuthenticator.php';
 
 $ga = new PHPGangsta_GoogleAuthenticator();
 $secret = $ga->createSecret();
@@ -59,7 +62,7 @@ Installation:
 ```composer install```
 
 - [Composer](https://getcomposer.org/doc/01-basic-usage.md) will take care of autoloading
-  care of autoloading the library. Just include following at the top of your file
+  the library. Just include the following at the top of your file
 
   `require_once __DIR__ . '/../vendor/autoload.php';`
 
