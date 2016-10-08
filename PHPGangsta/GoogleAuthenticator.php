@@ -183,40 +183,6 @@ class PHPGangsta_GoogleAuthenticator
     }
 
     /**
-     * Helper class to encode base32
-     *
-     * @param string $secret
-     * @param bool $padding
-     * @return string
-     */
-    protected function _base32Encode($secret, $padding = true)
-    {
-        if (empty($secret)) return '';
-
-        $base32chars = $this->_getBase32LookupTable();
-
-        $secret = str_split($secret);
-        $binaryString = "";
-        for ($i = 0; $i < count($secret); $i++) {
-            $binaryString .= str_pad(base_convert(ord($secret[$i]), 10, 2), 8, '0', STR_PAD_LEFT);
-        }
-        $fiveBitBinaryArray = str_split($binaryString, 5);
-        $base32 = "";
-        $i = 0;
-        while ($i < count($fiveBitBinaryArray)) {
-            $base32 .= $base32chars[base_convert(str_pad($fiveBitBinaryArray[$i], 5, '0'), 2, 10)];
-            $i++;
-        }
-        if ($padding && ($x = strlen($binaryString) % 40) != 0) {
-            if ($x == 8) $base32 .= str_repeat($base32chars[32], 6);
-            elseif ($x == 16) $base32 .= str_repeat($base32chars[32], 4);
-            elseif ($x == 24) $base32 .= str_repeat($base32chars[32], 3);
-            elseif ($x == 32) $base32 .= $base32chars[32];
-        }
-        return $base32;
-    }
-
-    /**
      * Get array with all 32 characters for decoding from/encoding to base32
      *
      * @return array
