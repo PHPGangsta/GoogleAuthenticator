@@ -6,4 +6,10 @@ php:
   - 5.5
   - 7
 
+install:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  - composer install
+
+
 script: phpunit --coverage-text --configuration tests/phpunit.xml

@@ -1,5 +1,5 @@
 Google Authenticator PHP class
-=====================
+==============================
 
 * Copyright (c) 2012, [http://www.phpgangsta.de](http://www.phpgangsta.de)
 * Author: Michael Kliewe, [@PHPGangsta](http://twitter.com/PHPGangsta)
@@ -17,13 +17,38 @@ Usage:
 
 See example files
 
-    php example1.php
-    Secret is: OQB6ZZGYHCPSX4AK
+```bash
+php example1.php
+Secret is: OQB6ZZGYHCPSX4AK
 
-    Google Charts URL for the QR-Code: https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/infoATphpgangsta.de%3Fsecret%3DOQB6ZZGYHCPSX4AK
+Google Charts URL for the QR-Code: https://www.google.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/infoATphpgangsta.de%3Fsecret%3DOQB6ZZGYHCPSX4AK
 
-    Checking Code '848634' and Secret 'OQB6ZZGYHCPSX4AK':
-    OK
+Checking Code '848634' and Secret 'OQB6ZZGYHCPSX4AK':
+OK
+```
+
+Installation:
+-------------
+
+- Use [Composer](https://getcomposer.org/doc/01-basic-usage.md) to
+  install the package
+
+- From project root directory execute following
+
+```composer install```
+
+- [Composer](https://getcomposer.org/doc/01-basic-usage.md) will take care of autoloading
+  care of autoloading the library. Just include following at the top of your file
+
+  `require_once __DIR__ . '/../vendor/autoload.php';`
+
+Run Tests:
+----------
+
+- All tests are inside `tests` folder.
+- Execute `composer install` and then run the tests from project root
+  directory
+- Run as `phpunit tests` from the project root directory
 
 
 ToDo:
@@ -32,4 +57,5 @@ ToDo:
 
 Notes:
 ------
+
 If you like this script or have some features to add: contact me, visit my blog, fork this project, send pull requests, you know how it works.
