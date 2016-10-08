@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 
     public function testCreateSecretDefaultsToSixteenCharacters()
     {
-        $ga     = $this->googleAuthenticator;
+        $ga = $this->googleAuthenticator;
         $secret = $ga->createSecret();
 
         $this->assertEquals(strlen($secret), 16);
@@ -41,7 +41,7 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
     {
         $ga = $this->googleAuthenticator;
 
-        for ($secretLength = 16; $secretLength < 100; $secretLength++) {
+        for ($secretLength = 16; $secretLength < 100; ++$secretLength) {
             $secret = $ga->createSecret($secretLength);
 
             $this->assertEquals(strlen($secret), $secretLength);
@@ -51,18 +51,18 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider codeProvider
      */
-    public function testgetCodeReturnsCorrectValues($secret, $timeSlice, $code)
+    public function testGetCodeReturnsCorrectValues($secret, $timeSlice, $code)
     {
         $generatedCode = $this->googleAuthenticator->getCode($secret, $timeSlice);
 
         $this->assertEquals($code, $generatedCode);
     }
 
-    public function testgetQRCodeGoogleUrlReturnsCorrectUrl()
+    public function testGetQRCodeGoogleUrlReturnsCorrectUrl()
     {
-        $secret   = 'SECRET';
-        $name     = 'Test';
-        $url      = $this->googleAuthenticator->getQRCodeGoogleUrl($name, $secret);
+        $secret = 'SECRET';
+        $name = 'Test';
+        $url = $this->googleAuthenticator->getQRCodeGoogleUrl($name, $secret);
         $urlParts = parse_url($url);
 
         parse_str($urlParts['query'], $queryStringArray);
@@ -71,7 +71,7 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($urlParts['host'], 'chart.googleapis.com');
         $this->assertEquals($urlParts['path'], '/chart');
 
-        $expectedChl = 'otpauth://totp/' . $name . '?secret=' . $secret;
+        $expectedChl = 'otpauth://totp/'.$name.'?secret='.$secret;
 
         $this->assertEquals($queryStringArray['chl'], $expectedChl);
     }
@@ -79,12 +79,12 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
     public function testVerifyCode()
     {
         $secret = 'SECRET';
-        $code   = $this->googleAuthenticator->getCode($secret);
+        $code = $this->googleAuthenticator->getCode($secret);
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
 
         $this->assertEquals(true, $result);
 
-        $code   = 'INVALIDCODE';
+        $code = 'INVALIDCODE';
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
 
         $this->assertEquals(false, $result);
@@ -100,10 +100,9 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         $code = '0'.$code;
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
         $this->assertEquals(false, $result);
-
     }
 
-    public function testsetCodeLength()
+    public function testSetCodeLength()
     {
         $result = $this->googleAuthenticator->setCodeLength(6);
 
