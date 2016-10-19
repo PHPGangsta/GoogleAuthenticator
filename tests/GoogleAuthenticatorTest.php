@@ -21,6 +21,19 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
             array('SECRET', '1378934578', '705013'),
         );
     }
+    
+    public function paramsProvider()
+    {
+        return array(
+            array(null, null, null, '200x200', 'M'),
+            array(-1, -1, null, '200x200', 'M'),
+            array(250, 250, 'L', '250x250', 'L'),
+            array(250, 250, 'M', '250x250', 'M'),
+            array(250, 250, 'Q', '250x250', 'Q'),
+            array(250, 250, 'H', '250x250', 'H'),
+            array(250, 250, 'Z', '250x250', 'M'),
+        );
+    }
 
     public function testItCanBeInstantiated()
     {
@@ -74,6 +87,30 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         $expectedChl = 'otpauth://totp/'.$name.'?secret='.$secret;
 
         $this->assertEquals($queryStringArray['chl'], $expectedChl);
+    }
+    
+    /**
+     * @dataProvider paramsProvider
+     */
+    public function testGetQRCodeGoogleUrlReturnsCorrectUrlWithOptionalParameters($width, $height, $level, $expectedSize, $expectedLevel)
+    {
+        $secret = 'SECRET';
+        $name = 'Test';
+        $url = $this->googleAuthenticator->getQRCodeGoogleUrl(
+            $name, 
+            $secret, 
+            null,
+            array(
+                'width' => $width,
+                'height' => $height,
+                'level' => $level
+            ));
+        $urlParts = parse_url($url);
+
+        parse_str($urlParts['query'], $queryStringArray);
+        
+        $this->assertEquals($queryStringArray['chs'], $expectedSize);
+        $this->assertEquals($queryStringArray['chld'], $expectedLevel.'|0');
     }
 
     public function testVerifyCode()
