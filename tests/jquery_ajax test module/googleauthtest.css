@@ -1,0 +1,57 @@
+/* SeanZ For the rfc6238 timebased authenticator */
+
+#time-based-auth {
+  margin: 0 auto;
+  margin-bottom: 20px;
+	width: 300px;
+	padding: 0px 15px 15px 15px;
+  border: 1px solid #d6d7da;
+	border-radius: 5px;
+	font-family: sans-serif, 'Andika';
+	line-height: 16px;
+	color: #ffffff;
+	font-size: 14px;
+	background: rgba(0,0,0,0.5);
+}
+
+#time-based-auth a {
+  display: inline-block;
+  margin-bottom: 5px;
+	width: 90%
+}
+#time-based-auth label {
+  display: inline-block;
+  padding-top: 10px;
+  margin-bottom: 5px;
+	width: 90%
+}
+
+input {
+  padding: 6px 15px;
+}
+
+.button {
+	background-color: #5fcf80 ;
+	border-color: #3ac162;
+	font-weight: bold;
+	padding: 6px 15px;
+	max-width: 100px;
+	color: #ffffff;
+}
+
+#time-based-auth-countdown,
+#time-based-auth-code {
+  color:lightblue;
+  font-weight:bold;
+}
+
+form .logo {
+  height: 1.5em;
+  display: inline;
+  vertical-align: middle;
+}
+
+form h3 {
+  margin-bottom: 5px;
+  margin-top: 10px;
+}

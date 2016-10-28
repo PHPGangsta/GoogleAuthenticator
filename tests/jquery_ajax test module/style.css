@@ -1,0 +1,261 @@
+/*
+    Written By Sean X Zeng
+    For Seanzeng.com 23/09/2016
+*/
+
+/* Colors */
+h2,
+.white small
+{
+    color: #2c89ff;
+}
+
+.text-colour1 {
+	color: yellow;
+}
+
+a:active {color: #ffffff;}
+a:visited {color: #ffffff;}
+a:hover {color: #16fff6 !important;}
+a:link {color: #7fcfff !important;}
+
+/* Main Domain Wide Styles */
+
+html,body {
+    height: 100%;
+}
+
+.wrapper {
+   /*min-height:100%;*/
+   position:relative;
+   padding-bottom: 50px;
+}
+
+body {
+    margin: 0;
+    background-image:url(images/patterns/pattern_5.png);
+    color: white;
+    background-color: #663399;
+    font: normal 12px/18px arial;
+}
+
+.content{
+    width:70%;
+    margin: 0 auto;
+}
+
+section {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0 10px 10px 10px;
+    margin-top: 30px;
+}
+
+section span {
+    text-align: center;
+    width: 80%;
+    left: 25%;
+    right: 25%;
+}
+
+section span img {
+	max-height: 500px;
+	max-width: 100%;
+}
+
+section > .img-float-right {
+    position: relative;
+    float: right;
+    display: inline-block;
+    max-height: 500px;
+    max-width: 400px;
+    margin-top: 70px;
+    margin-right: 25px;
+}
+
+section img {
+  display: inherit;
+}
+
+p {
+}
+
+h1,
+h2 {
+    padding-top: 10px;
+    margin-top: 0px;
+}
+
+h1 {
+    font: normal 56px/56px 'Oswald';
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+h2 {
+    font: normal 25px/40px 'Oswald';
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    margin-top: 0px;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: white;
+    font-size: 1.2em;
+}
+
+td:nth-child(1) {
+    padding-right: 40px;
+}
+
+footer {
+    display: block;
+    text-align: center;
+    font-size: 0.75em;
+
+	  margin-top: 150px;
+    /*bottom:0;*/
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Menu Bar */
+
+#menu {
+    padding: 0;
+    width: 100%;
+
+    height: 50px;
+    clear: both;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    color: white;
+    text-align: center;
+    font: lighter 20px 'Oswald';
+    text-transform: uppercase;
+}
+
+#menu img {
+  height: 40px;
+  margin-top: 5px;
+  position: absolute;
+}
+
+.menu-left {
+  left: 10px;
+}
+
+.menu-right {
+  right: 10px;
+  display: inline;
+  position: absolute;
+}
+
+#menu ul {
+    list-style: none;
+    float: none;
+    max-width: 660px; /* for  below IE7 use `width: 660px;` */
+    margin: 0 auto;
+    display: table;
+    table-layout: fixed;
+    padding: 0;
+}
+
+#menu ul li {
+    float: left;
+    padding: 10px 10px 10px 10px;
+    position:relative;
+}
+
+/* Responsive */
+
+@media screen and (max-width: 1100px) {
+    .content {
+        width:calc(100% - 20px);
+    }
+}
+
+@media screen and (max-width: 704px) {
+	section img {
+    margin-right: 0;
+    max-height: 300px;
+  }
+  footer {
+    margin-top: 50px;
+  }
+}
+
+/* Default Syles */
+
+a {
+    text-decoration: none;
+}
+
+.white {
+    color: #ffffff;
+}
+
+.center {
+    text-align: center;
+}
+
+.center img {
+  margin: 0 auto;
+}
+
+.rounded {
+    border: 2px #ddd solid;
+    border-radius: 20px;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.small-img {
+  height: 40px;
+  vertical-align: middle;
+}
+
+/* Administration Pages */
+
+.info-bar {
+  margin-top: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font: normal 13px/18px 'oswald';
+  width: 100%;
+}
+
+/* Special Elements */
+.w3c-badge-img {
+	border:0;
+	height:45px;
+  transition: all 0.3s ease;
+}
+
+.w3c-badge-img:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 704px) {
+  .boy-mobile {
+    background-image: url(/images/boy-graphic.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 280px;
+  }
+  #boy-img{
+    display: none;
+  }
+}
