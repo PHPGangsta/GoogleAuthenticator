@@ -1,6 +1,7 @@
 <?php
 
 namespace PHPGangsta;
+use Exception;
 
 /**
  * PHP Class for handling Google Authenticator 2-factor authentication.
@@ -21,6 +22,7 @@ class GoogleAuthenticator {
      * @param int $secretLength
      *
      * @return string
+     * @throws Exception
      */
     public function createSecret($secretLength = 16) {
         $validChars = $this->_getBase32LookupTable();
@@ -102,12 +104,12 @@ class GoogleAuthenticator {
         $height = !empty($params['height']) && (int)$params['height'] > 0 ? (int)$params['height'] : 200;
         $level  = !empty($params['level']) && array_search($params['level'], ['L', 'M', 'Q', 'H']) !== false ? $params['level'] : 'M';
 
-        $urlencoded = urlencode('otpauth://totp/' . $name . '?secret=' . $secret);
-        if (isset($title)) {
-            $urlencoded .= urlencode('&issuer=' . urlencode($title));
-        }
+        $otpauthUrl = $this->getOtpauthUrl($name, $secret, $title);
 
-        return 'https://chart.googleapis.com/chart?chs=' . $width . 'x' . $height . '&chld=' . $level . '|0&cht=qr&chl=' . $urlencoded . '';
+        return 'https://chart.googleapis.com/chart?chs=' .
+            $width . 'x' . $height .
+            '&chld=' . $level .
+            '|0&cht=qr&chl=' . urlencode($otpauthUrl);
     }
 
     /**
@@ -173,7 +175,7 @@ class GoogleAuthenticator {
             return false;
         }
         for ($i = 0; $i < 4; ++$i) {
-            if ($paddingCharCount == $allowedValues[$i] 
+            if ($paddingCharCount == $allowedValues[$i]
                 && substr($secret, -($allowedValues[$i])) != str_repeat($base32chars[32], $allowedValues[$i])
             ) {
                 return false;
@@ -242,5 +244,23 @@ class GoogleAuthenticator {
 
         // They are only identical strings if $result is exactly 0...
         return $result === 0;
+    }
+
+    /**
+     * getOtpauthUrl
+     *
+     * @param string $name
+     * @param string $secret
+     * @param string $title
+     *
+     * @return string
+     */
+    public function getOtpauthUrl($name, $secret, $title) {
+        $otpauthUrl = 'otpauth://totp/' . urlencode($name) . '?secret=' . urlencode($secret);
+        if (isset($title)) {
+            $otpauthUrl .= '&issuer=' . urlencode($title);
+        }
+
+        return $otpauthUrl;
     }
 }
