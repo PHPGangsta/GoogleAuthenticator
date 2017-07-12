@@ -1,6 +1,7 @@
 <?php
 
 namespace PHPGangsta;
+
 use Exception;
 
 /**
@@ -10,7 +11,7 @@ use Exception;
  * @copyright 2012 Michael Kliewe
  * @license   http://www.opensource.org/licenses/bsd-license.php BSD License
  *
- * @link http://www.phpgangsta.de/
+ * @link      http://www.phpgangsta.de/
  */
 class GoogleAuthenticator {
     protected $_codeLength = 6;
@@ -99,10 +100,10 @@ class GoogleAuthenticator {
      *
      * @return string
      */
-    public function getQRCodeGoogleUrl($name, $secret, $title = null, $params = []) {
+    public function getQRCodeGoogleUrl($name, $secret, $title = null, $params = array()) {
         $width  = !empty($params['width']) && (int)$params['width'] > 0 ? (int)$params['width'] : 200;
         $height = !empty($params['height']) && (int)$params['height'] > 0 ? (int)$params['height'] : 200;
-        $level  = !empty($params['level']) && array_search($params['level'], ['L', 'M', 'Q', 'H']) !== false ? $params['level'] : 'M';
+        $level  = !empty($params['level']) && array_search($params['level'], array('L', 'M', 'Q', 'H')) !== false ? $params['level'] : 'M';
 
         $otpauthUrl = $this->getOtpauthUrl($name, $secret, $title);
 
@@ -170,7 +171,7 @@ class GoogleAuthenticator {
         $base32charsFlipped = array_flip($base32chars);
 
         $paddingCharCount = substr_count($secret, $base32chars[32]);
-        $allowedValues    = [6, 4, 3, 1, 0];
+        $allowedValues    = array(6, 4, 3, 1, 0);
         if (!in_array($paddingCharCount, $allowedValues)) {
             return false;
         }
@@ -207,13 +208,13 @@ class GoogleAuthenticator {
      * @return array
      */
     protected function _getBase32LookupTable() {
-        return [
+        return array(
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //  7
             'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 15
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', // 23
             'Y', 'Z', '2', '3', '4', '5', '6', '7', // 31
             '=',  // padding char
-        ];
+        );
     }
 
     /**
