@@ -42,7 +42,7 @@ class GoogleAuthenticatorTest extends TestCase {
     public function testItCanBeInstantiated() {
         $ga = $this->googleAuthenticator;
 
-        $this->assertInstanceOf(GoogleAuthenticator::class, $ga);
+        $this->assertInstanceOf("GoogleAuthenticator", $ga);
     }
 
     /**
