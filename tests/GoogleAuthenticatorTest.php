@@ -2,6 +2,7 @@
 
 use PHPGangsta\GoogleAuthenticator;
 use PHPUnit\Framework\TestCase;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
@@ -27,11 +28,11 @@ class GoogleAuthenticatorTest extends TestCase {
      */
     public function codeProvider() {
         // Secret, time, code
-        return [
-            ['SECRET', '0', '200470'],
-            ['SECRET', '1385909245', '780018'],
-            ['SECRET', '1378934578', '705013'],
-        ];
+        return array(
+            array('SECRET', '0', '200470'),
+            array('SECRET', '1385909245', '780018'),
+            array('SECRET', '1378934578', '705013'),
+        );
     }
 
     /**
@@ -42,7 +43,7 @@ class GoogleAuthenticatorTest extends TestCase {
     public function testItCanBeInstantiated() {
         $ga = $this->googleAuthenticator;
 
-        $this->assertInstanceOf("GoogleAuthenticator", $ga);
+        $this->assertInstanceOf("PHPGangsta\GoogleAuthenticator", $ga);
     }
 
     /**
@@ -76,6 +77,10 @@ class GoogleAuthenticatorTest extends TestCase {
      * testGetCodeReturnsCorrectValues
      *
      * @dataProvider codeProvider
+     *
+     * @param $secret
+     * @param $timeSlice
+     * @param $code
      *
      * @return void
      */
@@ -149,7 +154,7 @@ class GoogleAuthenticatorTest extends TestCase {
     public function testSetCodeLength() {
         $result = $this->googleAuthenticator->setCodeLength(6);
 
-        $this->assertInstanceOf(GoogleAuthenticator::class, $result);
+        $this->assertInstanceOf("PHPGangsta\GoogleAuthenticator", $result);
     }
 
 }
