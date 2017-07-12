@@ -20,9 +20,12 @@
     "require": {
         "php": ">=5.3"
     },
-	"autoload": {
-		"classmap": ["PHPGangsta/GoogleAuthenticator.php"]
-	}
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "classmap": ["PHPGangsta/GoogleAuthenticator.php"]
+    }
 }
 
 
