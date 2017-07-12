@@ -1,13 +1,13 @@
 <?php
 
 use PHPGangsta\GoogleAuthenticator;
-
+use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Class GoogleAuthenticatorTest
  */
-class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase {
+class GoogleAuthenticatorTest extends TestCase {
     /* @var $googleAuthenticator GoogleAuthenticator */
     protected $googleAuthenticator;
 
