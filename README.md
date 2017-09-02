@@ -5,6 +5,9 @@ Google Authenticator PHP class
 * Author: Michael Kliewe, [@PHPGangsta](http://twitter.com/PHPGangsta) and [contributors](https://github.com/PHPGangsta/GoogleAuthenticator/graphs/contributors)
 * Licensed under the BSD License.
 
+Added test module:
+![Screenshot of test module](/2016-10-29 00_18_27_GoogleAuth_screenshot.png)
+
 [![Build Status](https://travis-ci.org/PHPGangsta/GoogleAuthenticator.png?branch=master)](https://travis-ci.org/PHPGangsta/GoogleAuthenticator)
 
 This PHP class can be used to interact with the Google Authenticator mobile app for 2-factor-authentication. This class
