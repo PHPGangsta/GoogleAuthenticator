@@ -7,7 +7,7 @@ Google Authenticator PHP class
 
 Added test module
 
-![image](/2016-10-29 00_18_27_GoogleAuth_screenshot.png)
+![Screenshot](/images/2016-10-29 00_18_27_GoogleAuth_screenshot.png)
 
 [![Build Status](https://travis-ci.org/PHPGangsta/GoogleAuthenticator.png?branch=master)](https://travis-ci.org/PHPGangsta/GoogleAuthenticator)
 
