@@ -85,7 +85,7 @@ class PHPGangsta_GoogleAuthenticator
 
         $modulo = pow(10, $this->_codeLength);
 
-        return str_pad($value % $modulo, $this->_codeLength, '0', STR_PAD_LEFT);
+        return str_pad(strval($value % $modulo), $this->_codeLength, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -186,7 +186,7 @@ class PHPGangsta_GoogleAuthenticator
         $secret = str_replace('=', '', $secret);
         $secret = str_split($secret);
         $binaryString = '';
-        for ($i = 0; $i < count($secret); $i = $i + 8) {
+        for ($i = 0, $secretLen = count($secret); $i < $secretLen; $i = $i + 8) {
             $x = '';
             if (!in_array($secret[$i], $base32chars)) {
                 return false;
@@ -195,7 +195,7 @@ class PHPGangsta_GoogleAuthenticator
                 $x .= str_pad(base_convert(@$base32charsFlipped[@$secret[$i + $j]], 10, 2), 5, '0', STR_PAD_LEFT);
             }
             $eightBits = str_split($x, 8);
-            for ($z = 0; $z < count($eightBits); ++$z) {
+            for ($z = 0, $eightBitsLen = count($eightBits); $z < $eightBitsLen; ++$z) {
                 $binaryString .= (($y = chr(base_convert($eightBits[$z], 2, 10))) || ord($y) == 48) ? $y : '';
             }
         }
