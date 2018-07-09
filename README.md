@@ -5,7 +5,7 @@ Google Authenticator PHP class
 * Author: Michael Kliewe, [@PHPGangsta](http://twitter.com/PHPGangsta) and [contributors](https://github.com/PHPGangsta/GoogleAuthenticator/graphs/contributors)
 * Licensed under the BSD License.
 
-Added test module
+[Modifications from orginal branch] PathToLife: Added test module
 
 ![Screenshot](/images/GoogleAuth_screenshot.png)
 
