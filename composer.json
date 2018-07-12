@@ -1,7 +1,6 @@
 {
     "name": "phpgangsta/googleauthenticator",
     "description": "Google Authenticator 2-factor authentication",
-    "version": "1.0.0",
     "type": "library",
     "keywords": ["GoogleAuthenticator", "TOTP", "rfc6238"],
     "license": "BSD-4-Clause",
