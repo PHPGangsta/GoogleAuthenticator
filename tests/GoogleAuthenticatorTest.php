@@ -68,12 +68,12 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         parse_str($urlParts['query'], $queryStringArray);
 
         $this->assertEquals($urlParts['scheme'], 'https');
-        $this->assertEquals($urlParts['host'], 'chart.googleapis.com');
-        $this->assertEquals($urlParts['path'], '/chart');
+        $this->assertEquals($urlParts['host'], 'api.qrserver.com');
+        $this->assertEquals($urlParts['path'], '/v1/create-qr-code/');
 
         $expectedChl = 'otpauth://totp/'.$name.'?secret='.$secret;
 
-        $this->assertEquals($queryStringArray['chl'], $expectedChl);
+        $this->assertEquals($queryStringArray['data'], $expectedChl);
     }
 
     public function testVerifyCode()
