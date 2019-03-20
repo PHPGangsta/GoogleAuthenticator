@@ -109,7 +109,7 @@ class PHPGangsta_GoogleAuthenticator
             $urlencoded .= urlencode('&issuer='.urlencode($title));
         }
 
-        return 'https://chart.googleapis.com/chart?chs='.$width.'x'.$height.'&chld='.$level.'|0&cht=qr&chl='.$urlencoded.'';
+        return "https://api.qrserver.com/v1/create-qr-code/?data=$urlencoded&size=${width}x${height}&ecc=$level";
     }
 
     /**
