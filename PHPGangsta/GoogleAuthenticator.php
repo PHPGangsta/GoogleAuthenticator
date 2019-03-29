@@ -53,17 +53,22 @@ class PHPGangsta_GoogleAuthenticator
     }
 
     /**
-     * Calculate the code, with given secret and point in time.
+     * Calculate the code, with given secret, point in time and
+     * hmac algorithm.
      *
-     * @param string   $secret
-     * @param int|null $timeSlice
+     * @param string       $secret
+     * @param int|null     $timeSlice
+     * @param string|null  $algo
      *
      * @return string
      */
-    public function getCode($secret, $timeSlice = null)
+    public function getCode($secret, $timeSlice = null, $algo = null)
     {
         if ($timeSlice === null) {
             $timeSlice = floor(time() / 30);
+        }
+        if ($algo === null) {
+            $algo = 'SHA1';
         }
 
         $secretkey = $this->_base32Decode($secret);
@@ -71,7 +76,7 @@ class PHPGangsta_GoogleAuthenticator
         // Pack time into binary string
         $time = chr(0).chr(0).chr(0).chr(0).pack('N*', $timeSlice);
         // Hash it with users secret key
-        $hm = hash_hmac('SHA1', $time, $secretkey, true);
+        $hm = hash_hmac($algo, $time, $secretkey, true);
         // Use last nipple of result as index/offset
         $offset = ord(substr($hm, -1)) & 0x0F;
         // grab 4 bytes of the result
@@ -103,8 +108,9 @@ class PHPGangsta_GoogleAuthenticator
         $width = !empty($params['width']) && (int) $params['width'] > 0 ? (int) $params['width'] : 200;
         $height = !empty($params['height']) && (int) $params['height'] > 0 ? (int) $params['height'] : 200;
         $level = !empty($params['level']) && array_search($params['level'], array('L', 'M', 'Q', 'H')) !== false ? $params['level'] : 'M';
+        $algo = !empty($params['algo']) ? strtoupper($params['algo']) : 'SHA1';
 
-        $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.'');
+        $urlencoded = urlencode('otpauth://totp/'.$name.'?secret='.$secret.($algo != 'SHA1' ? '&algorithm='.$algo : ''));
         if (isset($title)) {
             $urlencoded .= urlencode('&issuer='.urlencode($title));
         }
@@ -115,14 +121,15 @@ class PHPGangsta_GoogleAuthenticator
     /**
      * Check if the code is correct. This will accept codes starting from $discrepancy*30sec ago to $discrepancy*30sec from now.
      *
-     * @param string   $secret
-     * @param string   $code
-     * @param int      $discrepancy      This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
-     * @param int|null $currentTimeSlice time slice if we want use other that time()
+     * @param string      $secret
+     * @param string      $code
+     * @param int         $discrepancy      This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
+     * @param int|null    $currentTimeSlice time slice if we want use other that time()
+     * @param string|null $algo             Algorithm to use to validate code with.
      *
      * @return bool
      */
-    public function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
+    public function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null, $algo = null)
     {
         if ($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
@@ -133,7 +140,7 @@ class PHPGangsta_GoogleAuthenticator
         }
 
         for ($i = -$discrepancy; $i <= $discrepancy; ++$i) {
-            $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
+            $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i, $algo);
             if ($this->timingSafeEquals($calculatedCode, $code)) {
                 return true;
             }
