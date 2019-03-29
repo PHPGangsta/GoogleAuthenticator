@@ -2,6 +2,12 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+if (!class_exists('PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Framework\TestCase')) {
+    class PHPUnit_Framework_TestCase extends \PHPUnit\Framework\TestCase
+    {
+    }
+}
+
 class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 {
     /* @var $googleAuthenticator PHPGangsta_GoogleAuthenticator */
@@ -14,11 +20,32 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 
     public function codeProvider()
     {
-        // Secret, time, code
+        // Secret, timeSlice, code, codeLength, algo
         return array(
             array('SECRET', '0', '200470'),
             array('SECRET', '1385909245', '780018'),
             array('SECRET', '1378934578', '705013'),
+
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', '1', '94287082', 8, 'SHA1'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', '37037036', '07081804', 8, 'SHA1'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', '37037037', '14050471', 8, 'SHA1'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', '41152263', '89005924', 8, 'SHA1'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', '66666666', '69279037', 8, 'SHA1'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ', '666666666', '65353130', 8, 'SHA1'),
+
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA', '1', '46119246', 8, 'SHA256'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA', '37037036', '68084774', 8, 'SHA256'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA', '37037037', '67062674', 8, 'SHA256'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA', '41152263', '91819424', 8, 'SHA256'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA', '66666666', '90698825', 8, 'SHA256'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA', '666666666', '77737706', 8, 'SHA256'),
+
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', '1', '90693936', 8, 'SHA512'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', '37037036', '25091201', 8, 'SHA512'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', '37037037', '99943326', 8, 'SHA512'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', '41152263', '93441116', 8, 'SHA512'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', '66666666', '38618901', 8, 'SHA512'),
+            array('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA', '666666666', '47863826', 8, 'SHA512'),
         );
     }
 
@@ -51,9 +78,10 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider codeProvider
      */
-    public function testGetCodeReturnsCorrectValues($secret, $timeSlice, $code)
+    public function testGetCodeReturnsCorrectValues($secret, $timeSlice, $code, $length = 6, $algo = 'SHA1')
     {
-        $generatedCode = $this->googleAuthenticator->getCode($secret, $timeSlice);
+        $this->googleAuthenticator->setCodeLength($length);
+        $generatedCode = $this->googleAuthenticator->getCode($secret, $timeSlice, $algo);
 
         $this->assertEquals($code, $generatedCode);
     }
@@ -107,5 +135,12 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         $result = $this->googleAuthenticator->setCodeLength(6);
 
         $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $result);
+    }
+
+    public function testValidateCorrectCodeLength()
+    {
+        $secret = 'SECRET';
+        $this->googleAuthenticator->setCodeLength(8);
+        $this->assertEquals(true, $this->googleAuthenticator->verifyCode($secret, $this->googleAuthenticator->getCode($secret)));
     }
 }
