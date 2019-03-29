@@ -2,6 +2,12 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+if (!class_exists('PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Framework\TestCase')) {
+    class PHPUnit_Framework_TestCase extends \PHPUnit\Framework\TestCase
+    {
+    }
+}
+
 class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 {
     /* @var $googleAuthenticator PHPGangsta_GoogleAuthenticator */
