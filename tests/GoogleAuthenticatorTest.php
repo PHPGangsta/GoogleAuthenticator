@@ -114,4 +114,11 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $result);
     }
+
+    public function testValidateCorrectCodeLength()
+    {
+        $secret = 'SECRET';
+        $this->googleAuthenticator->setCodeLength(8);
+        $this->assertEquals(true, $this->googleAuthenticator->verifyCode($secret, $this->googleAuthenticator->getCode($secret)));
+    }
 }
