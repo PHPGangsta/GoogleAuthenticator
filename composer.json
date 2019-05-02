@@ -21,7 +21,9 @@
         "php": ">=5.3"
     },
 	"autoload": {
-		"classmap": ["PHPGangsta/GoogleAuthenticator.php"]
+        "psr-4": {
+            "PHPGangsta\\": "PHPGangsta/"
+        }
 	}
 }
 

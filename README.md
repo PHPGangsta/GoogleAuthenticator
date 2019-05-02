@@ -24,7 +24,7 @@ See following example:
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 
-$ga = new PHPGangsta_GoogleAuthenticator();
+$ga = new GoogleAuthenticator();
 $secret = $ga->createSecret();
 echo "Secret is: ".$secret."\n\n";
 
