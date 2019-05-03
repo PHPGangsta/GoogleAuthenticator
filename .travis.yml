@@ -8,4 +8,4 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer install
 
-script: phpunit --coverage-text --configuration tests/phpunit.xml
+script: phpunit --coverage-text --configuration phpunit.xml
