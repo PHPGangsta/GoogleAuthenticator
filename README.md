@@ -24,7 +24,7 @@ See following example:
 <?php
 require_once 'PHPGangsta/GoogleAuthenticator.php';
 
-$ga = new PHPGangsta_GoogleAuthenticator();
+$ga = new PHPGangsta\GoogleAuthenticator();
 $secret = $ga->createSecret();
 echo "Secret is: ".$secret."\n\n";
 
@@ -64,15 +64,14 @@ Installation:
 - [Composer](https://getcomposer.org/doc/01-basic-usage.md) will take care of autoloading
   the library. Just include the following at the top of your file
 
-  `require_once __DIR__ . '/../vendor/autoload.php';`
+  `require_once __DIR__ . '/vendor/autoload.php';`
 
 Run Tests:
 ----------
 
 - All tests are inside `tests` folder.
-- Execute `composer install` and then run the tests from project root
-  directory
-- Run as `phpunit tests` from the project root directory
+- Execute `composer install`
+- Run as `./vendor/bin/phpunit` from the project root directory
 
 
 ToDo:

@@ -1,15 +1,22 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+namespace Tests;
 
-class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
+use PHPGangsta\GoogleAuthenticator;
+use PHPUnit\Framework\TestCase;
+
+class GoogleAuthenticatorTest extends TestCase
 {
-    /* @var $googleAuthenticator PHPGangsta_GoogleAuthenticator */
+    /**
+     * Authenticator class instance
+     *
+     * @var GoogleAuthenticator
+     */
     protected $googleAuthenticator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->googleAuthenticator = new PHPGangsta_GoogleAuthenticator();
+        $this->googleAuthenticator = new GoogleAuthenticator();
     }
 
     public function codeProvider()
@@ -24,9 +31,9 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
 
     public function testItCanBeInstantiated()
     {
-        $ga = new PHPGangsta_GoogleAuthenticator();
+        $ga = new GoogleAuthenticator();
 
-        $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $ga);
+        $this->assertInstanceOf('PHPGangsta\GoogleAuthenticator', $ga);
     }
 
     public function testCreateSecretDefaultsToSixteenCharacters()
@@ -71,7 +78,7 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($urlParts['host'], 'api.qrserver.com');
         $this->assertEquals($urlParts['path'], '/v1/create-qr-code/');
 
-        $expectedChl = 'otpauth://totp/'.$name.'?secret='.$secret;
+        $expectedChl = 'otpauth://totp/' . $name . '?secret=' . $secret;
 
         $this->assertEquals($queryStringArray['data'], $expectedChl);
     }
@@ -97,7 +104,7 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
         $this->assertEquals(true, $result);
 
-        $code = '0'.$code;
+        $code = '0' . $code;
         $result = $this->googleAuthenticator->verifyCode($secret, $code);
         $this->assertEquals(false, $result);
     }
@@ -106,6 +113,6 @@ class GoogleAuthenticatorTest extends PHPUnit_Framework_TestCase
     {
         $result = $this->googleAuthenticator->setCodeLength(6);
 
-        $this->assertInstanceOf('PHPGangsta_GoogleAuthenticator', $result);
+        $this->assertInstanceOf('PHPGangsta\GoogleAuthenticator', $result);
     }
 }
