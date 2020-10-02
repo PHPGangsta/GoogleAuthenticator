@@ -113,6 +113,22 @@ class PHPGangsta_GoogleAuthenticator
     }
 
     /**
+     * Get OTP:// - Url 
+     * @param string $name
+     * @param string $secret
+     * @param string $title
+     * 
+     * @return string
+     */
+    public function getOTPUrl($name,$secret,$title = null){
+        $url = 'otpauth://totp/'.$name.'?secret='.$secret;
+        if (isset($title)) {
+            $url .= "&issuer=$title";
+        }
+        return ($url);
+    }
+
+    /**
      * Check if the code is correct. This will accept codes starting from $discrepancy*30sec ago to $discrepancy*30sec from now.
      *
      * @param string   $secret
