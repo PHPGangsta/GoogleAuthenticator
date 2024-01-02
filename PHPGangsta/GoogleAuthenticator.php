@@ -29,18 +29,40 @@ class PHPGangsta_GoogleAuthenticator
         if ($secretLength < 16 || $secretLength > 128) {
             throw new Exception('Bad secret length');
         }
+        //$secret = '';
+        //$rnd = false;
+        //if (function_exists('random_bytes')) {
+        //    $rnd = random_bytes($secretLength);
+      //  } elseif (function_exists('mcrypt_create_iv')) {
+       //     $rnd = mcrypt_create_iv($secretLength, MCRYPT_DEV_URANDOM);
+       // } elseif (function_exists('openssl_random_pseudo_bytes')) {
+         //   $rnd = openssl_random_pseudo_bytes($secretLength, $cryptoStrong);
+          //  if (!$cryptoStrong) {
+          //      $rnd = false;
+          //  }
+        //}
         $secret = '';
-        $rnd = false;
-        if (function_exists('random_bytes')) {
-            $rnd = random_bytes($secretLength);
-        } elseif (function_exists('mcrypt_create_iv')) {
-            $rnd = mcrypt_create_iv($secretLength, MCRYPT_DEV_URANDOM);
-        } elseif (function_exists('openssl_random_pseudo_bytes')) {
-            $rnd = openssl_random_pseudo_bytes($secretLength, $cryptoStrong);
-            if (!$cryptoStrong) {
-                $rnd = false;
+        $rnd = generateRandomBytes($secretLength);
+        
+        function generateRandomBytes($length) {
+            if (function_exists('random_bytes')) {
+                return random_bytes($length);
+            } elseif (function_exists('mcrypt_create_iv')) {
+                return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+            } elseif (function_exists('openssl_random_pseudo_bytes')) {
+                $cryptoStrong = false;
+                $bytes = openssl_random_pseudo_bytes($length, $cryptoStrong);
+                return $cryptoStrong ? $bytes : false;
+            } else {
+                return false; // No secure random function available
             }
         }
+        // Cleaned up the code to make it easier to read.
+        // Added a default case in the generateRanbomBytes function to return false.
+        // Combined the openssl_random_pseudo_bytes check and assignment into one statement.
+
+
+
         if ($rnd !== false) {
             for ($i = 0; $i < $secretLength; ++$i) {
                 $secret .= $validChars[ord($rnd[$i]) & 31];
